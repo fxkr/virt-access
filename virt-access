@@ -4,7 +4,11 @@ use strict;
 use warnings;
 
 my @allowed = (
+
+    # virsh
     'sh -c \'if \'nc\' -q 2>&1 | grep "requires an argument" >/dev/null 2>&1; then ARG=-q0;else ARG=;fi;\'nc\' $ARG -U /var/run/libvirt/libvirt-sock\'',
+
+    # virt-manager
     'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5900";else   CMD="nc 127.0.0.1 5900";fi;eval "$CMD";\'',
 );
 
