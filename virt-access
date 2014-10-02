@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+my @allowed = (
+    'sh -c \'if \'nc\' -q 2>&1 | grep "requires an argument" >/dev/null 2>&1; then ARG=-q0;else ARG=;fi;\'nc\' $ARG -U /var/run/libvirt/libvirt-sock\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5900";else   CMD="nc 127.0.0.1 5900";fi;eval "$CMD";\'',
+);
+
+my $ssh_original_command = $ENV{"SSH_ORIGINAL_COMMAND"} || "";
+
+if ($ssh_original_command eq '') {
+    print STDERR "This account can be used with libvirt only.\n";
+    print STDERR "Use virsh or virt-manager.\n";
+    exit(1);
+}
+
+if (not $ssh_original_command ~~ @allowed) {
+    print STDERR "This command is not allowed. Use virsh or virt-manager to connect.\n";
+    print STDERR "If you were, please contact an admin to get it whitelisted.\n";
+    exit(1);
+}
+
+exec $ssh_original_command;
+
