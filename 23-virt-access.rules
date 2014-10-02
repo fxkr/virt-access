@@ -1,0 +1,82 @@
+/*
+ * Allow users in the vm-owner group to access domains
+ * whose name starts with "$username-".
+ */
+
+
+var OWNER_GROUP = "vm-owners";
+
+
+/* Controls who can connect to libvirt and how. */
+polkit.addRule(function(action, subject) {
+
+    if (action.id != "org.libvirt.unix.manage"
+        && action.id != "org.libvirt.unix.monitor") {
+        return polkit.Result.NOT_HANDLED;
+    }
+
+    if (!subject.isInGroup(OWNER_GROUP)) {
+        return polkit.Result.NO;
+    }
+
+    return polkit.Result.YES;
+});
+
+
+/* Controls which connected users can do what. */
+polkit.addRule(function(action, subject) {
+
+    if (0 != action.id.indexOf("org.libvirt.api.")) {
+        return polkit.Result.NOT_HANDLED;
+    }
+
+    if (!subject.isInGroup(OWNER_GROUP)) {
+        return polkit.Result.NO;
+    }
+
+    if (action.lookup("connect_driver") != 'QEMU') {
+        return polkit.Result.NO;
+    }
+
+    var domain = action.lookup("domain_name");
+    if (domain && 0 != domain.indexOf(subject.user + "-")) {
+        return polkit.Result.NO;
+    }
+
+    if ([
+        "org.libvirt.api.connect.getattr",
+        "org.libvirt.api.connect.search-domains",
+        "org.libvirt.api.connect.read",
+
+        "org.libvirt.api.domain.block-read",
+        "org.libvirt.api.domain.block-write",
+        "org.libvirt.api.domain.getattr",
+        "org.libvirt.api.domain.hibernate",
+        "org.libvirt.api.domain.init-control",
+        "org.libvirt.api.domain.inject-nmi",
+        "org.libvirt.api.domain.mem-read",
+        "org.libvirt.api.domain.open-device",
+        "org.libvirt.api.domain.open-graphics",
+        "org.libvirt.api.domain.pm-control",
+        "org.libvirt.api.domain.read",
+        "org.libvirt.api.domain.read-secure",
+        "org.libvirt.api.domain.reset",
+        "org.libvirt.api.domain.screenshot",
+        "org.libvirt.api.domain.send-input",
+        "org.libvirt.api.domain.send-signal",
+        "org.libvirt.api.domain.set-time",
+        "org.libvirt.api.domain.start",
+        "org.libvirt.api.domain.stop",
+        "org.libvirt.api.domain.suspend",
+
+        "org.libvirt.api.network.getattr",
+        "org.libvirt.api.network.read",
+    ].indexOf(action.id) < 0) {
+        polkit.log("rejected action: " + action.id);
+
+        return polkit.Result.NO;
+    }
+
+    return polkit.Result.YES;
+});
+
