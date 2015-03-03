@@ -23,7 +23,7 @@ This accomplishes the following completely independent tasks:
 Put these scripts in `/opt/virt-access` and run:
 
 ```
-chown root:root /opt/virt-access/{virt-access,23-virt-acess.rules}
+chown root:root /opt/virt-access/{virt-access,23-virt-access.rules}
 chmod 755 /opt/virt-access/virt-access,
 chmod 644 /opt/virt-access/23-virt-acess.rules
 
