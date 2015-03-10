@@ -47,5 +47,5 @@ chown $username:$username ~$username/.ssh{,/.authorized_keys}
 
 ## Granting access
 
-Add '$username-' to the start of the domain name.
+Add '$username-' to the start of the domain name or '-$username' to the end of it.
 

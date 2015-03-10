@@ -39,7 +39,10 @@ polkit.addRule(function(action, subject) {
     }
 
     var domain = action.lookup("domain_name");
-    if (domain && 0 != domain.indexOf(subject.user + "-")) {
+    if (domain && (
+              0 === domain.indexOf(subject.user + "-")
+          || -1 === domain.indexOf("-" + subject.user, domain.length - subject.user.length - "-".length))) {
+        polkit.log("reject " + action.id + ": user name (" + subject.user + ") not in domain name (" + domain + ")");
         return polkit.Result.NO;
     }
 
