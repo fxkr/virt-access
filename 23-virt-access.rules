@@ -31,10 +31,12 @@ polkit.addRule(function(action, subject) {
     }
 
     if (!subject.isInGroup(OWNER_GROUP)) {
+        polkit.log("reject " + action.id + ": subject (" + subject + ") isn't in GROUP (" + OWNER_GROUP + ")");
         return polkit.Result.NO;
     }
 
     if (action.lookup("connect_driver") != 'QEMU') {
+        polkit.log("reject " + action.id + ": connect driver (" + action.lookup("connect_driver") + ") isn't QEMU");
         return polkit.Result.NO;
     }
 
@@ -90,7 +92,7 @@ polkit.addRule(function(action, subject) {
         "org.libvirt.api.network.getattr",
         "org.libvirt.api.network.read",
     ].indexOf(action.id) < 0) {
-        polkit.log("rejected action: " + action.id);
+        polkit.log("reject " + action.id + ": action not whitelisted");
 
         return polkit.Result.NO;
     }
