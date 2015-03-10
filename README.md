@@ -56,5 +56,5 @@ Log messages will end up in `/var/log/secure`.
 
 Changing rules files makes PolKit reload them.
 Unfortunately, this doesn't with for symlinks.
-As a workaround, you can just rename (`mv`) the symlink.
+As a workaround, you can just rename (`mv`) the symlink or touch another rules file.
 
