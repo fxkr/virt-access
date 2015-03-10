@@ -49,7 +49,22 @@ polkit.addRule(function(action, subject) {
     if ([
         "org.libvirt.api.connect.getattr",
         "org.libvirt.api.connect.search-domains",
+        "org.libvirt.api.connect.search-interfaces",
+        "org.libvirt.api.connect.search-networks",
+        "org.libvirt.api.connect.search-node-devices",
+        "org.libvirt.api.connect.search-storage-pools",
         "org.libvirt.api.connect.read",
+
+       "org.libvirt.api.node-device.getattr",
+       "org.libvirt.api.node-device.read",
+
+       "org.libvirt.api.storage-pool.getattr",
+       "org.libvirt.api.storage-pool.read",
+       "org.libvirt.api.storage-pool.refresh",
+       "org.libvirt.api.storage-pool.search-storage-vols",
+
+       "org.libvirt.api.storage-vol.getattr",
+       "org.libvirt.api.storage-vol.read",
 
         "org.libvirt.api.domain.block-read",
         "org.libvirt.api.domain.block-write",
