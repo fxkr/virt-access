@@ -49,3 +49,12 @@ chown $username:$username ~$username/.ssh{,/.authorized_keys}
 
 Add '$username-' to the start of the domain name or '-$username' to the end of it.
 
+
+## Debugging
+
+Log messages will end up in `/var/log/secure`.
+
+Changing rules files makes PolKit reload them.
+Unfortunately, this doesn't with for symlinks.
+As a workaround, you can just rename (`mv`) the symlink.
+
