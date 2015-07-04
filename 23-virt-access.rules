@@ -55,6 +55,7 @@ polkit.addRule(function(action, subject) {
         "org.libvirt.api.connect.search-networks",
         "org.libvirt.api.connect.search-node-devices",
         "org.libvirt.api.connect.search-storage-pools",
+        "org.libvirt.api.connect.write",
         "org.libvirt.api.connect.read",
 
        "org.libvirt.api.node-device.getattr",
