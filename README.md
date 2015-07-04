@@ -18,6 +18,21 @@ This accomplishes the following completely independent tasks:
    their libvirt domain.
 
 
+## Important Security Note
+
+Full disclosure:
+
+The current implementation has a security problem:
+It allows any user who can use virt-access to open a graphical console to any VM.
+
+This should be *relatively* easy to fix, I just haven't gotten around to it yet.
+See the comments in the `virt-access` file.
+
+Note: The underlying idea of virt-access, that is whitelisting only specific
+netcat commands so that virt-manager/virsh can connect to libvirt, then using
+PolicyKit to restrict what they can to with that connection, is still sound.
+
+
 ## Setup
 
 Put these scripts in `/opt/virt-access` and run:

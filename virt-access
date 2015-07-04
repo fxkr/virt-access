@@ -5,11 +5,31 @@ use warnings;
 
 my @allowed = (
 
-    # virsh
+    # virsh + virt-manager themselves
+    'sh -c \'if \'nc\' -q 2>&1 | grep "requires an argument" >/dev/null 2>&1; then ARG=-q0;else ARG=;fi;\'nc\' $ARG -U /var/run/libvirt/libvirt-sock\'',
     'sh -c \'if \'nc\' -q 2>&1 | grep "requires an argument" >/dev/null 2>&1; then ARG=-q0;else ARG=;fi;\'nc\' $ARG -U /var/run/libvirt/libvirt-sock\'',
 
-    # virt-manager
+    # graphical connections
+    # FIXME: very bad hack + a security problem:
+    #   alles any user (who can use virt-access) to open a graphical console to any VM.
+    #   we *should* inspect the domain xml and check if the user may connect to that port.
+    #   also, obviously pretty bad case of code duplication and whitelisting a few known-required cases.
     'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5900";else   CMD="nc 127.0.0.1 5900";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5901";else   CMD="nc 127.0.0.1 5901";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5902";else   CMD="nc 127.0.0.1 5902";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5903";else   CMD="nc 127.0.0.1 5903";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5904";else   CMD="nc 127.0.0.1 5904";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5905";else   CMD="nc 127.0.0.1 5905";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5906";else   CMD="nc 127.0.0.1 5906";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5907";else   CMD="nc 127.0.0.1 5907";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5908";else   CMD="nc 127.0.0.1 5908";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5909";else   CMD="nc 127.0.0.1 5909";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5910";else   CMD="nc 127.0.0.1 5910";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5911";else   CMD="nc 127.0.0.1 5911";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5912";else   CMD="nc 127.0.0.1 5912";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5913";else   CMD="nc 127.0.0.1 5913";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5914";else   CMD="nc 127.0.0.1 5914";fi;eval "$CMD";\'',
+    'sh -c \'nc -q 2>&1 | grep "requires an argument" >/dev/null;if [ $? -eq 0 ] ; then   CMD="nc -q 0 127.0.0.1 5915";else   CMD="nc 127.0.0.1 5915";fi;eval "$CMD";\'',
 );
 
 my $ssh_original_command = $ENV{"SSH_ORIGINAL_COMMAND"} || "";
