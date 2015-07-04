@@ -13,6 +13,12 @@ my @allowed = (
 );
 
 my $ssh_original_command = $ENV{"SSH_ORIGINAL_COMMAND"} || "";
+my $ssh_user = ($ENV{"USER"} || "");
+$ssh_user =~ s/[^A-Za-z0-9\-\.]//g;
+
+open(my $fh, '>>', "/tmp/virt-${ssh_user}-access.log") or die "failed to open log file";
+say $fh "[" . $ssh_original_command . "]";
+close $fh;
 
 if ($ssh_original_command eq '') {
     print STDERR "This account can be used with libvirt only.\n";
